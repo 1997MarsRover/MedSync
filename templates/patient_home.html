@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to MedSync</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+    <h1>Welcome to MedSync, {{ username }}</h1>
+
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs" id="myTabs">
+        <li class="nav-item">
+            <a class="nav-link active" id="patientsInfoTab" data-toggle="tab" href="#patientsInfo">Patients Information</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="medicalHistoryTab" data-toggle="tab" href="#medicalHistory">Medical History</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="auditTrailTab" data-toggle="tab" href="#auditTrail">Audit Trail</a>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content mt-2">
+        <!-- Patients Information Tab -->
+        <div class="tab-pane fade show active" id="patientsInfo">
+            <h2>Patients Information</h2>
+            <!-- Display patient information here -->
+            <form>
+                <!-- Patient's Photo Placeholder -->
+                <div class="form-group">
+                    <label for="patientPhoto">Patient's Photo:</label>
+                    <!-- Add a placeholder for the photo -->
+                    <div class="border border-dark rounded p-2">
+                        <!-- Add an <img> tag to display the photo -->
+                        <img src="/static/images/me.jpg" alt="Patient's Photo" class="img-fluid">
+                    </div>
+                </div>
+                
+                <!-- Patient's Name -->
+                <div class="form-group">
+                    <label for="patientName">Patient's Name:</label>
+                    <input type="text" class="form-control" id="patientName" value="Austin" readonly>
+                </div>
+                
+                <!-- Date of Birth -->
+                <div class="form-group">
+                    <label for="dob">Date of Birth:</label>
+                    <input type="text" class="form-control" id="dob" value="January 1, 1990" readonly>
+                </div>
+        
+                <!-- Additional Patient Information -->
+                <div class="form-group">
+                    <label for="contact">Contact:</label>
+                    <input type="text" class="form-control" id="contact" value="123-456-7890" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address:</label>
+                    <input type="text" class="form-control" id="address" value="123 Main St, Cityville" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="idNumber">Identification Number:</label>
+                    <input type="text" class="form-control" id="idNumber" value="ID123456" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="bmi">Body Mass Index:</label>
+                    <input type="text" class="form-control" id="bmi" value="25.5" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="bloodGroup">Blood Group:</label>
+                    <input type="text" class="form-control" id="bloodGroup" value="A+" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="allergies">Allergies:</label>
+                    <input type="text" class="form-control" id="allergies" value="None" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="reactions">Reactions:</label>
+                    <input type="text" class="form-control" id="reactions" value="None" readonly>
+                </div>
+            </form>
+        </div>
+        <!-- Medical History Tab -->
+        <div class="tab-pane fade" id="medicalHistory">
+            <h2></h2>
+            
+            <!-- Green Buttons for Diagnostics, Treatments, Surgeries, and Medications -->
+            <div class="btn-group" role="group">
+                <button type="button" class="btn btn-success" data-toggle="tab" href="#diagnostics">Diagnostics</button>
+                <button type="button" class="btn btn-success" data-toggle="tab" href="#treatments">Treatments</button>
+                <button type="button" class="btn btn-success" data-toggle="tab" href="#surgeries">Surgeries</button>
+                <button type="button" class="btn btn-success" data-toggle="tab" href="#medications">Medications</button>
+            </div>
+
+            <!-- Tab Content for Diagnostics -->
+            <div class="tab-pane fade" id="diagnostics">
+                <h3>Diagnostics Information</h3>
+            
+                <!-- Diagnostics Table -->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date of Diagnostic</th>
+                            <th>Ailment Diagnosed</th>
+                            <th>Results</th>
+                            <th>Facility</th>
+                            <th>Type of Diagnosis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for diagnostic in diagnostics_data %}
+                            <tr>
+                                <td>{{ diagnostic.date_of_diagnostic }}</td>
+                                <td>{{ diagnostic.ailment_diagnosed }}</td>
+                                <td>{{ diagnostic.results }}</td>
+                                <td>{{ diagnostic.facility }}</td>
+                                <td>{{ diagnostic.type_of_diagnosis }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+                <!-- Tab Content for Treatments -->
+                <div class="tab-pane fade" id="treatments">
+                    <h3></h3>
+                    <!-- Placeholder content for Treatments information -->
+                    <p>This is where Treatments information will be displayed.</p>
+                </div>
+
+                <!-- Tab Content for Surgeries -->
+                <div class="tab-pane fade" id="surgeries">
+                    <h3></h3>
+                    <!-- Placeholder content for Surgeries information -->
+                    <p>This is where Surgeries information will be displayed.</p>
+                </div>
+
+                <!-- Tab Content for Medications -->
+                <div class="tab-pane fade" id="medications">
+                    <h3></h3>
+                    <!-- Placeholder content for Medications information -->
+                    <p>This is where Medications information will be displayed.</p>
+                </div>
+            </div>
+        </div>
+
+    <!-- Add Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

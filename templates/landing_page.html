@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Add jQuery, Popper.js, and Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+</head>
+<body>
+    <h1 style="color: faintgreen; font-size: 3em;">MedSync</h1>
+    <div>
+        <button class="btn btn-dark" data-toggle="modal" data-target="#medicalPractitionerModal">Medical Practitioner</button>
+        <button class="btn btn-dark">Health Administrator</button>
+    </div>
+
+    <!-- Medical Practitioner Modal -->
+    <div class="modal fade" id="medicalPractitionerModal" tabindex="-1" role="dialog" aria-labelledby="medicalPractitionerModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="medicalPractitionerModalLabel">Medical Practitioner Login</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <!-- Add your login form here -->
+                    <form action="{{ url_for('medical_practitioner') }}" method="POST">
+                        <div class="form-group">
+                            <label for="license">Medical License:</label>
+                            <input type="text" class="form-control" id="license" name="license" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password:</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <div class="form-group form-check">
+                            <input type="checkbox" class="form-check-input" id="consent" name="consent">
+                            <label class="form-check-label" for="consent">Consent to access sensitive patient records</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Login</button>
+                        <!-- Add the Log In Patient button here -->
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#patientUnidModal">Log In Patient</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Second Popup for Patient UNid -->
+    <div class="modal fade" id="patientUnidModal" tabindex="-1" role="dialog" aria-labelledby="patientUnidModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="patientUnidModalLabel">Enter Patient's UNid</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="{{ url_for('handle_patient_unid') }}" method="POST">
+                        <div class="form-group">
+                            <label for="patient_unid">Patient's UNid:</label>
+                            <input type="text" class="form-control" id="patient_unid" name="patient_unid" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Log In Patient</button>
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#patientRegistrationModal">Add New Patient</button>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
