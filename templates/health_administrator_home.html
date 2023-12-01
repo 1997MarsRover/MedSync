@@ -1,0 +1,173 @@
+<!-- Health Administrator Home Page -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MedSync DataLake</title>
+    <style>
+        /* Add your custom styling for the futuristic font and color */
+        body {
+            font-family: 'Your Futuristic Font', sans-serif;
+            background-color: #0A192F;
+            /* Adjust the color as needed */
+            color: #64FFDA;
+            /* Adjust the color as needed */
+            text-align: center;
+            padding: 50px;
+        }
+
+        /* Style for form and visualization sections */
+        form {
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        select,
+        button {
+            margin-top: 10px;
+        }
+
+        #visualizationContainer {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        #regionDataContainer {
+            width: 60%;
+            padding: 20px;
+            background-color: #112240;
+            /* Adjust the color as needed */
+            border-radius: 10px;
+        }
+
+        #diseaseCompositionChartContainer {
+            width: 40%;
+        }
+
+        #diseaseCompositionChart {
+            display: none;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+    <!-- Include Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <h1>Welcome to MedSync DataLake</h1>
+    <!-- Region Analysis Section -->
+    <form id="analyzeForm">
+        <label for="region">Select Region:</label>
+        <select id="region" name="region" required>
+            <!-- Add more options based on your regions -->
+            <option value="Nairobi">Nairobi County</option>
+            <option value="Machakos">Machakos County</option>
+            <!-- Add more options as needed -->
+        </select>
+        <button type="button" onclick="analyzeRegion()">Analyze</button>
+    </form>
+
+    <!-- Visualization Section -->
+    <div id="visualizationContainer">
+        <div id="regionDataContainer">
+            <!-- Region data will be displayed here -->
+        </div>
+        <div id="diseaseCompositionChartContainer">
+            <canvas id="diseaseCompositionChart"></canvas>
+        </div>
+    </div>
+
+    <script>
+        function analyzeRegion() {
+            var selectedRegion = document.getElementById('region').value;
+
+            fetch('/api/region', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: 'region=' + selectedRegion,
+                })
+                .then(response => response.json())
+                .then(regionData => {
+                    displayRegionData(regionData);
+                    displayPieChart(regionData.diseaseComposition);
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+        function displayRegionData(regionData) {
+            var regionDataContainer = document.getElementById('regionDataContainer');
+            regionDataContainer.innerHTML = `
+                <h2>Region Analysis: ${regionData.region_name}</h2>
+                <p>Population: ${regionData.population}</p>
+                <p>Number of Hospitals: ${regionData.num_hospitals}</p>
+                <p>Medical Resources: ${regionData.medical_resources}</p>
+                <!-- Add more relevant information -->
+                <p>Top Ailment in Region: ${regionData.top_ailment}</p>
+                <p>Average Age of Population: ${regionData.average_age}</p>
+                <p>Majority Gender: ${regionData.majority_gender}</p>
+                <p>Available Beds in Hospitals: ${regionData.available_beds}</p>
+                <p>Specialized Medical Facilities: ${regionData.specialized_facilities}</p>
+                <p>Health Insurance Coverage: ${regionData.health_insurance_coverage}</p>
+                <p>Common Health Risks: ${regionData.common_health_risks}</p>
+            `;
+        }
+
+        function displayPieChart(diseaseComposition) {
+            var chartContainer = document.getElementById('diseaseCompositionChartContainer');
+            var canvas = document.getElementById('diseaseCompositionChart');
+            var ctx = canvas.getContext('2d');
+
+            // Update canvas size based on the container width
+            canvas.width = chartContainer.clientWidth;
+
+            var pieChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: Object.keys(diseaseComposition),
+                    datasets: [{
+                        data: Object.values(diseaseComposition),
+                        backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4CAF50', '#FF9800'],
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    tooltips: {
+                        callbacks: {
+                            label: function (tooltipItem, data) {
+                                var label = data.labels[tooltipItem.index];
+                                var value = data.datasets[0].data[tooltipItem.index];
+                                return label + ': ' + value + '%';
+                            }
+                        }
+                    }
+                },
+            });
+
+            // Show the div containing the pie chart
+            canvas.style.display = 'block';
+        }
+
+        // Example data for the pie chart
+        var diseaseCompositionData = {
+            'Flu': 25,
+            'Cancer': 30,
+            'Heart Disease': 20,
+            'Diabetes': 15,
+            'Other': 10
+        };
+
+        // Display the pie chart
+        displayPieChart(diseaseCompositionData);
+    </script
+</body>
+</html>
