@@ -4,7 +4,7 @@
 run using :
 
 ```bash
-flask run
+ python3 run.py
 ```
 # Objectives
 ```yaml
