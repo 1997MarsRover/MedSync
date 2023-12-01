@@ -1,17 +1,17 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
 import random
 import string
 
 
-from flask_script import Manager
+
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///medsync.db'
 app.config['SECRET_KEY'] = '1111'  # Change this to a random secret key
 db = SQLAlchemy(app)
 
-manager = Manager(app)
+
 
 # Define models
 class Patient(db.Model):
@@ -64,11 +64,69 @@ def medical_practitioner():
 
         flash('Login logic goes here', 'info')
         # Redirect to the patient_home route upon successful login
-        return redirect(url_for('patient_home', username='Austin'))
+        return redirect(url_for('patient_home', username='PatientName'))
     return render_template('medical_practitioner.html')
 
+# Health Administrator Login Route
+@app.route('/health_administrator_login', methods=['POST'])
+def health_administrator_login():
+    if request.method == 'POST':
+        # Handle Health Administrator login logic here
+        admin_username = request.form.get('admin_username')
+        admin_password = request.form.get('admin_password')
 
-@app.route('/handle_patient_unid', methods=['POST'])
+        # Implement your authentication logic here (e.g., check against a dictionary)
+        # For now, let's just print the values
+        print(f"Admin Username: {admin_username}, Admin Password: {admin_password}")
+
+        # Redirect to the health_administrator_home route upon successful login
+        return redirect(url_for('health_administrator_home'))
+
+    # Redirect back to the landing page if not a POST request
+    return redirect(url_for('landing_page'))
+
+# Replace 'your_api_endpoint' with the actual endpoint you want
+@app.route('/api/region', methods=['GET', 'POST'])
+def get_region_data():
+    if request.method == 'POST':
+        region_name = request.form.get('region')
+        # Replace this with your actual data retrieval logic based on the selected region
+        region_data = get_region_data_by_name(region_name)
+        return jsonify(region_data)
+    else:
+        return render_template('health_administrator_home.html')
+
+def get_region_data_by_name(region_name):
+    # Replace this with your actual data retrieval logic based on the selected region
+    # This function should return the region data in a structured format
+    region_data = {
+        'region_name': region_name,
+        'population': 4397073,  # As of 2022
+        'num_hospitals': 67,
+        'medical_resources': 'High',
+        'top_ailment': 'Respiratory Infections',
+        'average_age': 28,
+        'majority_gender': 'Female',
+        'available_beds': 3200,
+        'specialized_facilities': 'Cardiology, Oncology',
+        'health_insurance_coverage': '75%',
+        'common_health_risks': 'Malaria, Diabetes'
+    }
+    return region_data
+
+
+@app.route('/health_administrator_home')
+def health_administrator_home():
+    # Render the Health Administrator Home page
+    return render_template('health_administrator_home.html')
+
+@app.route('/admin_home')
+def admin_home():
+    # Add logic for the admin home page
+    return render_template('admin_home.html')
+
+
+@app.route('/handle_patient_unid', methods=['GET', 'POST'])
 def handle_patient_unid():
     if request.method == 'POST':
         patient_unid = request.form.get('patient_unid')
@@ -113,6 +171,8 @@ def add_new_patient():
         flash('New Registration Confirmed. Unique Identifier: {}'.format(new_patient.id), 'success')
 
     return redirect(url_for('medical_practitioner'))
+
+
 class Diagnostics(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date_of_diagnostic = db.Column(db.Date)
@@ -121,5 +181,7 @@ class Diagnostics(db.Model):
     facility = db.Column(db.String)
     type_of_diagnosis = db.Column(db.String)
     patient_id = db.Column(db.String(10), db.ForeignKey('patient.id'), nullable=False)
+
+
 
 
