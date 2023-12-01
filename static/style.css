@@ -1,3 +1,7 @@
+/* Bootstrap styles */
+@import url('https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css');
+
+/* Your existing styles */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -21,4 +25,57 @@ body {
     margin: 10px;
     border-radius: 5px;
     cursor: pointer;
+}
+
+/* Additional styles for the table */
+.table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px; /* Adjust as needed */
+    background-color: white; /* Set background color for the table */
+}
+
+.table th, .table td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+.table th {
+    background-color: #f2f2f2;
+}
+#toggleChatbotBtn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100; /* Ensure it's above other elements */
+    /* Additional styling */
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#toggleChatbotBtn:hover {
+    background-color: #0056b3;
+}
+#patientInfoContainer {
+    width: 40%;
+    float: left;
+    padding-right: 20px;
+    background-color: #f8f9fa; /* Gray background color */
+    border: 1px solid #ced4da; /* Border color */
+    border-radius: 8px; /* Rounded corners */
+    padding: 15px; /* Padding for inner content */
+}
+
+#patientPhoto {
+    width: 80px; /* Adjust the size as needed */
+    height: 80px; /* Adjust the size as needed */
+}
+#chatInput {
+    width: 50%;
+    background-color: #fff; /* Set the desired background color */
 }
